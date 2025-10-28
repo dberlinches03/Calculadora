@@ -38,6 +38,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun Calculadora() {
+
     var numero1 by remember { mutableStateOf("") }
     var numero2 by remember { mutableStateOf("") }
     var resultado by remember { mutableStateOf("") }
