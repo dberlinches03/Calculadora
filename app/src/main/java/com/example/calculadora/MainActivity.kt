@@ -78,7 +78,13 @@ fun Calculadora() {
             label = { Text("Número 2") }
         )
 
+        Row (horizontalArrangement = Arrangement.spacedBy(8.dp)){
+            Button(onClick = { operar("+") }) { Text("+") }
+            Button(onClick = { operar("-") }) { Text("-") }
+            Button(onClick = { operar("*") }) { Text("x") }
+            Button(onClick = { operar("/") }) { Text("÷") }
 
+        }
         Text("Resultado: $resultado", style = MaterialTheme.typography.bodyLarge)
 
     }
