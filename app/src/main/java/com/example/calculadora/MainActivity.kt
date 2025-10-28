@@ -1,0 +1,58 @@
+package com.example.calculadora
+
+import android.os.Bundle
+import android.widget.Button
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.example.calculadora.ui.theme.CalculadoraTheme
+
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        setContent {
+            CalculadoraTheme {
+                Calculadora()
+            }
+        }
+    }
+}
+
+@Composable
+fun Calculadora() {
+    var numero1 by remember { mutableStateOf("") }
+    var numero2 by remember { mutableStateOf("") }
+    var resultado by remember { mutableStateOf("") }
+
+    OutlinedTextField(
+        value = numero1,
+        onValueChange = { numero1 = it },
+        label = { Text("Número 1") }
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun CalculadoraPreview() {
+    CalculadoraTheme {
+        Calculadora()
+    }
+}
