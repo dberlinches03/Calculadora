@@ -43,6 +43,23 @@ fun Calculadora() {
     var numero2 by remember { mutableStateOf("") }
     var resultado by remember { mutableStateOf("") }
 
+    fun operar(operador: String) {
+        val n1 = numero1.toDoubleOrNull()
+        val n2 = numero2.toDoubleOrNull()
+
+        resultado = if (n1 != null && n2 != null) {
+            when (operador) {
+                "+" -> (n1 + n2).toString()
+                "-" -> (n1 - n2).toString()
+                "*" -> (n1 * n2).toString()
+                "/" -> if (n2.toInt() != 0) (n1/n2).toString() else "Error: no se puede dividir por cero"
+                else -> "Operador inválido"
+            }
+        } else {
+            "Introduce números válidos"
+        }
+    }
+
     OutlinedTextField(
         value = numero1,
         onValueChange = { numero1 = it },
