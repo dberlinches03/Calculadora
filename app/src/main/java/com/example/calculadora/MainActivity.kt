@@ -83,7 +83,13 @@ fun Calculadora() {
             Button(onClick = { operar("-") }) { Text("-") }
             Button(onClick = { operar("*") }) { Text("x") }
             Button(onClick = { operar("/") }) { Text("÷") }
-
+            Button(onClick =  {
+                numero1 = ""
+                numero2 = ""
+                resultado = ""
+            }) {
+                Text("c")
+            }
         }
         Text("Resultado: $resultado", style = MaterialTheme.typography.bodyLarge)
 
