@@ -48,6 +48,12 @@ fun Calculadora() {
         onValueChange = { numero1 = it },
         label = { Text("Número 1") }
     )
+
+    OutlinedTextField(
+        value = numero2,
+        onValueChange = { numero2 = it },
+        label = { Text("Número 2") }
+    )
 }
 
 @Preview(showBackground = true)
