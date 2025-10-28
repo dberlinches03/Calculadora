@@ -60,17 +60,28 @@ fun Calculadora() {
         }
     }
 
-    OutlinedTextField(
-        value = numero1,
-        onValueChange = { numero1 = it },
-        label = { Text("Número 1") }
-    )
+    Column (
+        modifier = Modifier.padding(24.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ){
+        Text("Calculadora", style = MaterialTheme.typography.headlineMedium)
+        OutlinedTextField(
+            value = numero1,
+            onValueChange = { numero1 = it },
+            label = { Text("Número 1") }
+        )
 
-    OutlinedTextField(
-        value = numero2,
-        onValueChange = { numero2 = it },
-        label = { Text("Número 2") }
-    )
+        OutlinedTextField(
+            value = numero2,
+            onValueChange = { numero2 = it },
+            label = { Text("Número 2") }
+        )
+
+
+        Text("Resultado: $resultado", style = MaterialTheme.typography.bodyLarge)
+
+    }
 }
 
 @Preview(showBackground = true)
