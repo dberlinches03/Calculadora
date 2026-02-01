@@ -55,7 +55,7 @@ class MainActivity : FragmentActivity() {
 
         val googleIdOption = GetGoogleIdOption.Builder()
             .setFilterByAuthorizedAccounts(false)
-            .setServerClientId("829701961126-6a4cjjisvgbnriltveqs7g7e65250l0n.apps.googleusercontent.com")
+            .setServerClientId("829701961126-6hpp8q667n1uetappjrbfjc6llm9joev.apps.googleusercontent.com")
             .build()
 
         val request = GetCredentialRequest.Builder()
