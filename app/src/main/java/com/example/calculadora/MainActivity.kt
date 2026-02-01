@@ -1,41 +1,84 @@
 package com.example.calculadora
 
-import android.os.Bundle
-import android.widget.Button
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import android.os.Bundle
+import androidx.activity.compose.setContent
+import androidx.compose.material3.*
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.*
+import androidx.credentials.CredentialManager
+import androidx.credentials.GetCredentialRequest
+import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.calculadora.ui.theme.CalculadoraTheme
+import com.google.android.libraries.identity.googleid.GetGoogleIdOption
+import kotlinx.coroutines.launch
 
-class MainActivity : ComponentActivity() {
+class MainActivity : FragmentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+
         setContent {
-            CalculadoraTheme {
-                Calculadora()
+            val navController = rememberNavController()
+
+            NavHost(navController = navController, startDestination = "login") {
+
+                composable("login") {
+                    GoogleLoginScreen(
+                        onLoginSuccess = {
+                            signInWithGoogle { success ->
+                                if (success) navController.navigate("calculadora")
+                            }
+                        }
+                    )
+                }
+                composable("calculadora") {
+                    Calculadora()
+                }
+            }
+        }
+    }
+
+    private fun signInWithGoogle(onResult: (Boolean) -> Unit) {
+        val credentialManager = CredentialManager.create(this)
+
+        val googleIdOption = GetGoogleIdOption.Builder()
+            .setFilterByAuthorizedAccounts(false)
+            .setServerClientId("829701961126-6a4cjjisvgbnriltveqs7g7e65250l0n.apps.googleusercontent.com")
+            .build()
+
+        val request = GetCredentialRequest.Builder()
+            .addCredentialOption(googleIdOption)
+            .build()
+
+        lifecycleScope.launch {
+            try {
+                val result = credentialManager.getCredential(this@MainActivity, request)
+                android.util.Log.d("GOOGLE_AUTH", "¡Éxito! Credencial recibida.")
+                onResult(true)
+            } catch (e: androidx.credentials.exceptions.GetCredentialException) {
+                // ESTO NOS DARÁ LA CLAVE
+                android.util.Log.e("GOOGLE_AUTH", "Error de Credenciales: ${e.type}")
+                android.util.Log.e("GOOGLE_AUTH", "Mensaje: ${e.message}")
+                onResult(false)
+            } catch (e: Exception) {
+                android.util.Log.e("GOOGLE_AUTH", "Error inesperado: ${e.message}", e)
+                onResult(false)
             }
         }
     }
 }
-
 @Composable
 fun Calculadora() {
 
@@ -95,7 +138,6 @@ fun Calculadora() {
 
     }
 }
-
 @Preview(showBackground = true)
 @Composable
 fun CalculadoraPreview() {
